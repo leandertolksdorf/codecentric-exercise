@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { existsSync, readFile, readFileSync, writeFileSync } from "fs";
-import { Octokit } from "octokit";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Octokit } from "octokit";
 
 export type FetchResponse = {
   login: string;
@@ -17,7 +17,9 @@ export default async function handler(
 ) {
   if (existsSync("./data/data.json")) {
     console.log("Returning existing data.json");
-    return res.json(JSON.parse(readFileSync("./data/data.json").toString()));
+    const raw = readFileSync("./data/data.json").toString();
+    const parsed = JSON.parse(raw);
+    return res.json(parsed);
   }
 
   console.log("data.json missing. Fetching now.");
