@@ -1,9 +1,24 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { GetServerSideProps, NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import { FetchResponse } from "./api/fetch";
 
-const Home: NextPage = () => {
+type ServerSideProps = {
+  members: FetchResponse;
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const response = await fetch("http://localhost:3000/api/fetch");
+  const members: FetchResponse = await response.json();
+  return {
+    props: {
+      members,
+    },
+  };
+};
+
+const Home: NextPage<ServerSideProps> = (props) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -18,7 +33,7 @@ const Home: NextPage = () => {
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
@@ -59,14 +74,14 @@ const Home: NextPage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
