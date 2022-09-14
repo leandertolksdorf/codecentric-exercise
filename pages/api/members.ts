@@ -1,19 +1,22 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { existsSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Octokit } from "octokit";
 
-export type FetchResponse = {
+export type Repository = {
+  name: string;
+  languages: string[];
+};
+
+export type Member = {
   login: string;
-  repositories: {
-    name: string;
-    languages: string[];
-  }[];
-}[];
+  repositories: Repository[];
+};
+
+export type MembersDTO = Member[];
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<FetchResponse>
+  res: NextApiResponse<MembersDTO>
 ) {
   if (existsSync("./data/data.json")) {
     console.log("Returning existing data.json");
@@ -62,6 +65,10 @@ export default async function handler(
     })
   );
 
+  if (!existsSync("./data")) {
+    mkdirSync("./data");
+  }
   writeFileSync("./data/data.json", JSON.stringify(result));
+
   return res.json(result);
 }
