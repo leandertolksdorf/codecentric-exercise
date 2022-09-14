@@ -1,13 +1,14 @@
-import type { GetServerSideProps, NextPage } from "next";
-import { FetchResponse } from "./api/fetch";
+import type { NextPage } from "next";
+import { MemberListItem } from "../components/MemberListItem";
+import { MembersDTO } from "./api/members";
 
 type ServerSideProps = {
-  members: FetchResponse;
+  members: MembersDTO;
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await fetch("http://localhost:3000/api/fetch");
-  const members: FetchResponse = await response.json();
+export const getServerSideProps = async () => {
+  const response = await fetch("http://localhost:3000/api/members");
+  const members: MembersDTO = await response.json();
   return {
     props: {
       members,
@@ -16,7 +17,15 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const Home: NextPage<ServerSideProps> = (props) => {
-  return <p>Hello World</p>;
+  return (
+    <div>
+      <ul>
+        {props.members.map((member, i) => (
+          <MemberListItem key={i} member={member} />
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default Home;
