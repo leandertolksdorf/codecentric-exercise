@@ -35,35 +35,37 @@ export default async function handler(
     per_page: 100,
   });
 
-  const result = await Promise.all(
-    members.map(async (member) => {
-      const repositories = await octokit.paginate(
-        octokit.rest.repos.listForUser,
-        {
-          username: member.login,
-        }
+  const result: Member[] = [];
+
+  for (let member of members) {
+    const newMember: Member = {
+      login: member.login,
+      repositories: [],
+    };
+
+    const reposOfMemberRaw = await octokit.paginate(
+      octokit.rest.repos.listForUser,
+      {
+        username: member.login,
+        per_page: 100,
+      }
+    );
+
+    for (let repo of reposOfMemberRaw) {
+      const languagesOfRepositoryRaw = await octokit.paginate(
+        octokit.rest.repos.listLanguages,
+        { owner: repo.owner.login, repo: repo.name }
       );
 
-      const repositoriesWithLanguages = await Promise.all(
-        repositories.map(async (repository) => {
-          const languages = await octokit.paginate(
-            octokit.rest.repos.listLanguages,
-            { owner: repository.owner.login, repo: repository.name }
-          );
+      const languagesOfRepository = Object.keys(languagesOfRepositoryRaw[0]);
 
-          return {
-            name: repository.name,
-            languages: Object.keys(languages[0]),
-          };
-        })
-      );
-
-      return {
-        login: member.login,
-        repositories: repositoriesWithLanguages,
-      };
-    })
-  );
+      newMember.repositories.push({
+        name: repo.name,
+        languages: languagesOfRepository,
+      });
+    }
+    result.push(newMember);
+  }
 
   if (!existsSync("./data")) {
     mkdirSync("./data");
