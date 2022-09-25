@@ -1,36 +1,45 @@
 import { Repository } from "../pages/api/members";
 
+type LanguageOccurence = {
+  language: string;
+  occurence: number;
+};
+
 /**
  *
  * @param {Repository[]} repositories List of repositories
  * @returns Array of Languages with occurences, e.g. [["Java", 2], ["Python", 1]]
  */
-export function transformRepositoryListToLanguageOccurence(
+export function getLanguageOccurence(
   repositories: Repository[]
-) {
-  const languages: { [key: string]: number } = {};
+): LanguageOccurence[] {
+  const languageOccurences: LanguageOccurence[] = [];
 
   // Count up languages used in repositories
-  for (const repository of repositories) {
-    for (const language of repository.languages) {
-      if (Object.hasOwn(languages, language)) {
-        languages[language] += 1;
+  for (let repository of repositories) {
+    for (let repositoryLanguage of repository.languages) {
+      const index = languageOccurences.findIndex(
+        ({ language }) => language === repositoryLanguage
+      );
+      if (index === -1) {
+        languageOccurences.push({
+          language: repositoryLanguage,
+          occurence: 1,
+        });
       } else {
-        languages[language] = 1;
+        languageOccurences[index].occurence += 1;
       }
     }
   }
 
-  const result = Object.entries(languages);
-
   // Sort by descending occurence, by name when equal occurence.
-  result.sort((a, b) => {
-    if (a[1] > b[1]) return -1;
-    if (a[1] < b[1]) return 1;
-    if (a[0].toLowerCase() < b[0].toLowerCase()) return -1;
-    if (a[0].toLowerCase() > b[0].toLowerCase()) return 1;
+  languageOccurences.sort((a, b) => {
+    if (a.occurence > b.occurence) return -1;
+    if (a.occurence < b.occurence) return 1;
+    if (a.language.toLowerCase() < b.language.toLowerCase()) return -1;
+    if (a.language.toLowerCase() > b.language.toLowerCase()) return 1;
     return 0;
   });
 
-  return result;
+  return languageOccurences;
 }

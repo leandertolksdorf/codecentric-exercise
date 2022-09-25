@@ -1,35 +1,31 @@
-import { transformRepositoryListToLanguageOccurence } from "./transforms";
+import { getLanguageOccurence } from "./transforms";
 
-describe("transformRepositoryListToLanguageOccurence", () => {
+describe("getLanguageOccurence", () => {
   test("orders by occurence", () => {
-    const source = [
+    const input = [
       { name: "Foo", languages: ["TypeScript", "Python", "Java"] },
       { name: "Bar", languages: ["TypeScript", "Python"] },
       { name: "Baz", languages: ["TypeScript"] },
     ];
-    const dest = [
-      ["TypeScript", 3],
-      ["Python", 2],
-      ["Java", 1],
+    const output = [
+      { language: "TypeScript", occurence: 3 },
+      { language: "Python", occurence: 2 },
+      { language: "Java", occurence: 1 },
     ];
-    expect(transformRepositoryListToLanguageOccurence(source)).toStrictEqual(
-      dest
-    );
+    expect(getLanguageOccurence(input)).toStrictEqual(output);
   });
 
   test("orders by name on equal occurences", () => {
-    const source = [
+    const input = [
       { name: "Foo", languages: ["A", "B", "C"] },
       { name: "Bar", languages: ["A", "B", "C"] },
       { name: "Baz", languages: ["A", "B", "C"] },
     ];
-    const dest = [
-      ["A", 3],
-      ["B", 3],
-      ["C", 3],
+    const output = [
+      { language: "A", occurence: 3 },
+      { language: "B", occurence: 3 },
+      { language: "C", occurence: 3 },
     ];
-    expect(transformRepositoryListToLanguageOccurence(source)).toStrictEqual(
-      dest
-    );
+    expect(getLanguageOccurence(input)).toStrictEqual(output);
   });
 });

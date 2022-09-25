@@ -1,14 +1,12 @@
 import { Member } from "../pages/api/members";
-import { transformRepositoryListToLanguageOccurence } from "../util/transforms";
+import { getLanguageOccurence } from "../util/transforms";
 
 type MemberListItemProps = {
   member: Member;
 };
 
 export const MemberListItem = (props: MemberListItemProps) => {
-  const languageOccurences = transformRepositoryListToLanguageOccurence(
-    props.member.repositories
-  );
+  const languageOccurences = getLanguageOccurence(props.member.repositories);
 
   return (
     <li>
@@ -18,7 +16,7 @@ export const MemberListItem = (props: MemberListItemProps) => {
       <div>
         {languageOccurences.map((entry, i) => (
           <div key={i}>
-            {entry[0]}: {entry[1]}
+            {entry.language}: {entry.occurence}
           </div>
         ))}
       </div>
