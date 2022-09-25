@@ -1,6 +1,6 @@
 import { Repository } from "../api/fetchMembers";
 
-type LanguageOccurence = {
+export type LanguageOccurence = {
   language: string;
   occurence: number;
 };
