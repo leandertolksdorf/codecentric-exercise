@@ -1,7 +1,8 @@
 import type { GetServerSideProps, NextPage } from "next";
-import { Member } from "../api/fetchMembers";
+
 import { getMembersByLanguage } from "../api/getMembersByLanguage";
 import { MemberListItem } from "../components/MemberListItem";
+import { Member } from "../types";
 
 type ServerSideProps = {
   members: Member[];

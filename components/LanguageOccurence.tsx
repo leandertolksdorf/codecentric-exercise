@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { LanguageOccurence as LanguageOccurenceType } from "../util/transforms";
+import { LanguageOccurence as LanguageOccurenceType } from "../types";
 
 type LanguageOccurenceProps = {
   languageOccurence: LanguageOccurenceType;

@@ -1,9 +1,4 @@
-import { Member, Repository } from "../api/fetchMembers";
-
-export type LanguageOccurence = {
-  language: string;
-  occurence: number;
-};
+import { LanguageOccurence, Member, Repository } from "../types";
 
 /**
  *

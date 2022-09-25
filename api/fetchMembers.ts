@@ -1,15 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { Octokit } from "octokit";
-
-export type Repository = {
-  name: string;
-  languages: string[];
-};
-
-export type Member = {
-  login: string;
-  repositories: Repository[];
-};
+import { Member } from "../types";
 
 export const fetchMembers = async () => {
   if (existsSync("./data/data.json")) {

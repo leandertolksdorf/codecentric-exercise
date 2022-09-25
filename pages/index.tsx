@@ -1,11 +1,10 @@
 import { GetServerSideProps, NextPage } from "next";
-import { useRouter } from "next/router";
-import { Member } from "../api/fetchMembers";
 import { getMembersByLanguage } from "../api/getMembersByLanguage";
 import { LanguageSelector } from "../components/LanguageSelector";
 import { Layout } from "../components/Layout";
 import { MemberTable } from "../components/MemberTable";
 import { MemberTableRow } from "../components/MemberTableRow";
+import { Member } from "../types";
 import { getAllLanguages, getLanguageOccurence } from "../util/transforms";
 
 type ServerSideProps = {
