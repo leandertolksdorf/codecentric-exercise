@@ -1,4 +1,4 @@
-import { Repository } from "../api/fetchMembers";
+import { Member, Repository } from "../api/fetchMembers";
 
 export type LanguageOccurence = {
   language: string;
@@ -43,3 +43,18 @@ export function getLanguageOccurence(
 
   return languageOccurences;
 }
+
+export const getAllLanguages = (members: Member[]) => {
+  const languages = new Set<string>();
+
+  for (let member of members) {
+    for (let repo of member.repositories) {
+      for (let language of repo.languages) {
+        languages.add(language);
+      }
+    }
+  }
+  const result = Array.from(languages);
+  result.sort();
+  return result;
+};

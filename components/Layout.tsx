@@ -8,7 +8,7 @@ type LayoutProps = {
 
 export const Layout = (props: LayoutProps) => {
   return (
-    <div className={classNames("container", "mx-auto", "pt-16")}>
+    <div className={classNames("container", "mx-auto", "py-16")}>
       <Header />
       {props.children}
     </div>
