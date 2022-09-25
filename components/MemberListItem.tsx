@@ -1,4 +1,4 @@
-import { Member } from "../pages/api/members";
+import { Member } from "../api/fetchMembers";
 import { getLanguageOccurence } from "../util/transforms";
 
 type MemberListItemProps = {

@@ -1,4 +1,4 @@
-import { Repository } from "../pages/api/members";
+import { Repository } from "../api/fetchMembers";
 
 type LanguageOccurence = {
   language: string;

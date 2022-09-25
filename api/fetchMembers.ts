@@ -1,5 +1,4 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
-import type { NextApiRequest, NextApiResponse } from "next";
 import { Octokit } from "octokit";
 
 export type Repository = {
@@ -12,17 +11,12 @@ export type Member = {
   repositories: Repository[];
 };
 
-export type MembersDTO = Member[];
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<MembersDTO>
-) {
+export const fetchMembers = async () => {
   if (existsSync("./data/data.json")) {
     console.log("Returning existing data.json");
     const raw = readFileSync("./data/data.json").toString();
     const parsed = JSON.parse(raw);
-    return res.json(parsed);
+    return parsed as Member[];
   }
 
   console.log("data.json missing. Fetching now.");
@@ -72,5 +66,5 @@ export default async function handler(
   }
   writeFileSync("./data/data.json", JSON.stringify(result));
 
-  return res.json(result);
-}
+  return result;
+};
