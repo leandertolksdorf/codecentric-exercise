@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-const Home: NextPage<ServerSideProps> = (props) => {
+const Raw: NextPage<ServerSideProps> = (props) => {
   return (
     <div>
       <ul>
@@ -29,4 +29,4 @@ const Home: NextPage<ServerSideProps> = (props) => {
   );
 };
 
-export default Home;
+export default Raw;
