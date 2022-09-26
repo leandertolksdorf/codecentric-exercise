@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+    body {
+        @apply px-4;
+        @apply md:px-16;
+    }
     td {
         @apply p-2;
         @apply align-top;
