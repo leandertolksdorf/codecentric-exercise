@@ -30,7 +30,7 @@ export const fetchMembers = async () => {
       name: user.data.name,
       email: user.data.email,
       login: member.login,
-      url: member.url,
+      url: member.html_url,
       repositories: [],
     };
 
