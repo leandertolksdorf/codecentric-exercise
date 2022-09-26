@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
+import { fetchMembers, filterByLanguage } from "../api/members";
 
-import { getMembersByLanguage } from "../api/getMembersByLanguage";
 import { MemberListItem } from "../components/MemberListItem";
 import { Member } from "../types";
 
@@ -10,10 +10,11 @@ type ServerSideProps = {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const language = context.query.language as string;
-  const members = await getMembersByLanguage(language);
+  const members = await fetchMembers();
+  const filteredMembers = filterByLanguage(members, language);
   return {
     props: {
-      members,
+      members: filteredMembers,
     },
   };
 };

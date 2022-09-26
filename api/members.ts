@@ -59,3 +59,18 @@ export const fetchMembers = async () => {
 
   return result;
 };
+
+export const filterByLanguage = async (
+  members: Member[],
+  language?: string
+) => {
+  if (!language) return members;
+
+  const filteredMembers = members.filter(
+    (member) =>
+      member.repositories.findIndex((repository) =>
+        repository.languages.includes(language)
+      ) !== -1
+  );
+  return filteredMembers;
+};

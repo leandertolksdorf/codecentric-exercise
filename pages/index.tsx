@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import { getMembersByLanguage } from "../api/getMembersByLanguage";
+import { fetchMembers } from "../api/members";
 import { LanguageSelector } from "../components/LanguageSelector";
 import { Layout } from "../components/Layout";
 import { MemberTable } from "../components/MemberTable";
@@ -14,7 +14,7 @@ type ServerSideProps = {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const language = context.query.language as string;
-  const members = await getMembersByLanguage(language);
+  const members = await fetchMembers();
   const languages = getAllLanguages(members);
 
   if (language) {
