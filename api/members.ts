@@ -23,8 +23,14 @@ export const fetchMembers = async () => {
   const result: Member[] = [];
 
   for (let member of members) {
+    const user = await octokit.rest.users.getByUsername({
+      username: member.login,
+    });
     const newMember: Member = {
+      name: user.data.name,
+      email: user.data.email,
       login: member.login,
+      url: member.url,
       repositories: [],
     };
 

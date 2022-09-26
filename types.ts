@@ -9,6 +9,9 @@ export type Repository = {
 };
 
 export type Member = {
+  name: string | null;
+  email: string | null;
+  url: string;
   login: string;
   repositories: Repository[];
 };
