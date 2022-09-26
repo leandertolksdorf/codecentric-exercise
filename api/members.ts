@@ -66,10 +66,7 @@ export const fetchMembers = async () => {
   return result;
 };
 
-export const filterByLanguage = async (
-  members: Member[],
-  language?: string
-) => {
+export const filterByLanguage = (members: Member[], language?: string) => {
   if (!language) return members;
 
   const filteredMembers = members.filter(

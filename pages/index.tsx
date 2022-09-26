@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import { fetchMembers } from "../api/members";
+import { fetchMembers, filterByLanguage } from "../api/members";
 import { LanguageSelector } from "../components/LanguageSelector";
 import { Layout } from "../components/Layout";
 import { MemberTable } from "../components/MemberTable";
@@ -15,6 +15,7 @@ type ServerSideProps = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const language = context.query.language as string;
   const members = await fetchMembers();
+  const filteredMembers = filterByLanguage(members, language);
   const languages = getAllLanguages(members);
 
   if (language) {
@@ -35,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      members,
+      members: filteredMembers,
       languages,
     },
   };
