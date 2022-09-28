@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const languages = getAllLanguages(members);
 
   if (language) {
-    members.sort((a, b) => {
+    filteredMembers.sort((a, b) => {
       const languageOccurencesA = getLanguageOccurence(a.repositories);
       const languageOccurencesB = getLanguageOccurence(b.repositories);
       const languageRankA = languageOccurencesA.find(
